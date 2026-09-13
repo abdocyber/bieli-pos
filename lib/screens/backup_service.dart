@@ -41,16 +41,17 @@ class BackupService {
         );
         return backupFile.path;
       } else {
-        final output = await FilePicker.platform.saveFile(
+        final backupBytes = await backupFile.readAsBytes();
+        final output = await FilePicker.saveFile(
           dialogTitle: 'اختر مكان حفظ النسخة الاحتياطية',
           fileName: backupFileName,
+          bytes: backupBytes,
           type: FileType.custom,
           allowedExtensions: ['bieli'],
         );
 
         if (output != null) {
-          await backupFile.copy(output);
-          return output;
+          return output.toFilePath();
         }
       }
       return backupFile.path;
@@ -61,16 +62,16 @@ class BackupService {
 
   static Future<bool> restoreBackup() async {
     try {
-      final result = await FilePicker.platform.pickFiles(
+      final result = await FilePicker.pickFiles(
         dialogTitle: 'حدد ملف النسخة الاحتياطية (.bieli)',
         type: FileType.any,
       );
 
-      if (result == null || result.files.single.path == null) {
+      if (result == null || result.isEmpty || result.single.path == null) {
         return false;
       }
 
-      final file = File(result.files.single.path!);
+      final file = File(result.single.path!);
       final content = await file.readAsString();
       final Map<String, dynamic> data = jsonDecode(content);
 
