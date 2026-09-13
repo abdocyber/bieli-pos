@@ -32,7 +32,5 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <meta-data
-            android:value="2" />
     </application>
 </manifest>

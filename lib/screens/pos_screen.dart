@@ -251,4 +251,80 @@ class _PosScreenState extends State<PosScreen> {
                   labelText: 'رقم واتساب العميل (اختياري مع الكود)',
                   hintText: '966500000000',
                   prefixIcon: Icon(Icons.phone_android, color: Colors.green),
-                  border
+                  border: const OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 12),
+              OutlinedButton.icon(
+                onPressed: () => Navigator.pop(ctx),
+                icon: const Icon(Icons.close),
+                label: const Text('إغلاق'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        appBar: AppBar(title: const Text('البيع المباشر')),
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: TextField(
+                controller: _searchCtrl,
+                onChanged: _onSearch,
+                decoration: const InputDecoration(
+                  labelText: 'ابحث بالاسم أو الباركود',
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            if (_searchResults.isNotEmpty)
+              ..._searchResults.map(
+                (product) => ListTile(
+                  title: Text(product['name']?.toString() ?? ''),
+                  subtitle: Text('${product['retail_price'] ?? 0} ر.س'),
+                  trailing: const Icon(Icons.add_shopping_cart),
+                  onTap: () => _openQuantitySheet(product),
+                ),
+              ),
+            Expanded(
+              child: _cart.isEmpty
+                  ? const Center(child: Text('السلة فارغة'))
+                  : ListView.builder(
+                      itemCount: _cart.length,
+                      itemBuilder: (context, index) {
+                        final item = _cart[index];
+                        return ListTile(
+                          title: Text(item['name'].toString()),
+                          subtitle: Text('${item['quantity']} × ${item['price']} ر.س'),
+                          trailing: Text('${item['subtotal'].toStringAsFixed(2)} ر.س'),
+                        );
+                      },
+                    ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text('الإجمالي: ${_grandTotal.toStringAsFixed(2)} ر.س', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                  const SizedBox(height: 8),
+                  ElevatedButton(onPressed: _cart.isEmpty ? null : _saveAndShowReceiptDialog, child: const Text('إصدار الفاتورة')),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
