@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:integration_test/integration_test.dart';
 
 import 'package:bieli_pos/database/db_helper.dart';
@@ -8,8 +9,9 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   testWidgets('POS app root loads', (tester) async {
+    GoogleFonts.config.allowRuntimeFetching = false;
     await tester.pumpWidget(const BieLiApp());
-    await tester.pump(const Duration(milliseconds: 500));
+    await tester.pumpAndSettle(const Duration(seconds: 1));
 
     expect(find.text('البيع المباشر'), findsWidgets);
     expect(find.text('السلة فارغة'), findsOneWidget);
