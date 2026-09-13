@@ -8,8 +8,8 @@ class StoreSettingsScreen extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: AppBar(title: Text('المتجر والطباعة')),
-        body: Center(child: Text('إعدادات المتجر والطباعة')),
+        appBar: AppBar(title: const Text('المتجر والطباعة')),
+        body: const Center(child: Text('إعدادات المتجر والطباعة')),
       ),
     );
   }

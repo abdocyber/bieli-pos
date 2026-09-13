@@ -32,24 +32,34 @@ class InvoiceActionService {
             child: pw.Column(
               crossAxisAlignment: pw.CrossAxisAlignment.center,
               children: [
-                pw.Text(settings['name']!, style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 13)),
-                pw.Text('هاتف: ${settings['phone']!}', style: const pw.TextStyle(fontSize: 8)),
-                pw.Text(settings['address']!, style: const pw.TextStyle(fontSize: 8)),
+                pw.Text(settings['name']!,
+                    style: const pw.TextStyle(
+                        fontWeight: pw.FontWeight.bold, fontSize: 13)),
+                pw.Text('هاتف: ${settings['phone']!}',
+                    style: const pw.TextStyle(fontSize: 8)),
+                pw.Text(settings['address']!,
+                    style: const pw.TextStyle(fontSize: 8)),
                 if (settings['taxNumber']!.isNotEmpty)
-                  pw.Text('الرقم الضريبي: ${settings['taxNumber']!}', style: const pw.TextStyle(fontSize: 8)),
+                  pw.Text('الرقم الضريبي: ${settings['taxNumber']!}',
+                      style: const pw.TextStyle(fontSize: 8)),
                 pw.Divider(thickness: 1),
                 pw.Row(
                   mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                   children: [
-                    pw.Text('فاتورة رقم: #$invoiceId', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 9)),
-                    pw.Text('النوع: $invoiceType', style: const pw.TextStyle(fontSize: 8)),
+                    pw.Text('فاتورة رقم: #$invoiceId',
+                        style: const pw.TextStyle(
+                            fontWeight: pw.FontWeight.bold, fontSize: 9)),
+                    pw.Text('النوع: $invoiceType',
+                        style: const pw.TextStyle(fontSize: 8)),
                   ],
                 ),
                 pw.Row(
                   mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                   children: [
-                    pw.Text('العميل: $customerName', style: const pw.TextStyle(fontSize: 8)),
-                    pw.Text('الدفع: $paymentMethod', style: const pw.TextStyle(fontSize: 8)),
+                    pw.Text('العميل: $customerName',
+                        style: const pw.TextStyle(fontSize: 8)),
+                    pw.Text('الدفع: $paymentMethod',
+                        style: const pw.TextStyle(fontSize: 8)),
                   ],
                 ),
                 pw.Divider(thickness: 0.5),
@@ -58,8 +68,10 @@ class InvoiceActionService {
                       child: pw.Row(
                         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                         children: [
-                          pw.Text('${it['name']} x${it['quantity']}', style: const pw.TextStyle(fontSize: 8)),
-                          pw.Text('${(it['subtotal'] as double).toStringAsFixed(2)}', style: const pw.TextStyle(fontSize: 8)),
+                          pw.Text('${it['name']} x${it['quantity']}',
+                              style: const pw.TextStyle(fontSize: 8)),
+                          pw.Text((it['subtotal'] as double).toStringAsFixed(2),
+                              style: const pw.TextStyle(fontSize: 8)),
                         ],
                       ),
                     )),
@@ -67,23 +79,31 @@ class InvoiceActionService {
                 pw.Row(
                   mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                   children: [
-                    pw.Text('المبلغ قبل الضريبة:', style: const pw.TextStyle(fontSize: 8)),
-                    pw.Text('${subtotal.toStringAsFixed(2)} ر.س', style: const pw.TextStyle(fontSize: 8)),
+                    pw.Text('المبلغ قبل الضريبة:',
+                        style: const pw.TextStyle(fontSize: 8)),
+                    pw.Text('${subtotal.toStringAsFixed(2)} ر.س',
+                        style: const pw.TextStyle(fontSize: 8)),
                   ],
                 ),
                 pw.Row(
                   mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                   children: [
-                    pw.Text('ضريبة القيمة المضافة (15%):', style: const pw.TextStyle(fontSize: 8)),
-                    pw.Text('${tax.toStringAsFixed(2)} ر.س', style: const pw.TextStyle(fontSize: 8)),
+                    pw.Text('ضريبة القيمة المضافة (15%):',
+                        style: const pw.TextStyle(fontSize: 8)),
+                    pw.Text('${tax.toStringAsFixed(2)} ر.س',
+                        style: const pw.TextStyle(fontSize: 8)),
                   ],
                 ),
                 pw.Divider(thickness: 1),
                 pw.Row(
                   mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                   children: [
-                    pw.Text('الإجمالي النهائي:', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10)),
-                    pw.Text('${grandTotal.toStringAsFixed(2)} ر.س', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10)),
+                    pw.Text('الإجمالي النهائي:',
+                        style: const pw.TextStyle(
+                            fontWeight: pw.FontWeight.bold, fontSize: 10)),
+                    pw.Text('${grandTotal.toStringAsFixed(2)} ر.س',
+                        style: const pw.TextStyle(
+                            fontWeight: pw.FontWeight.bold, fontSize: 10)),
                   ],
                 ),
                 pw.SizedBox(height: 10),
@@ -94,7 +114,9 @@ class InvoiceActionService {
                   height: 35,
                 ),
                 pw.SizedBox(height: 6),
-                pw.Text(settings['footer']!, textAlign: pw.TextAlign.center, style: const pw.TextStyle(fontSize: 7)),
+                pw.Text(settings['footer']!,
+                    textAlign: pw.TextAlign.center,
+                    style: const pw.TextStyle(fontSize: 7)),
               ],
             ),
           );
@@ -102,7 +124,8 @@ class InvoiceActionService {
       ),
     );
 
-    await Printing.layoutPdf(onLayout: (PdfPageFormat format) async => doc.save());
+    await Printing.layoutPdf(
+        onLayout: (PdfPageFormat format) async => doc.save());
   }
 
   static Future<void> shareViaWhatsApp({
@@ -125,11 +148,13 @@ class InvoiceActionService {
     buffer.writeln('*الأصناف المشتراة:*');
 
     for (var it in items) {
-      buffer.writeln('• ${it['name']} (x${it['quantity']} ${it['unit'] ?? ""}) = ${(it['subtotal'] as double).toStringAsFixed(2)} ر.س');
+      buffer.writeln(
+          '• ${it['name']} (x${it['quantity']} ${it['unit'] ?? ""}) = ${(it['subtotal'] as double).toStringAsFixed(2)} ر.س');
     }
 
     buffer.writeln('--------------------------------');
-    buffer.writeln('💰 *الإجمالي النهائي: ${grandTotal.toStringAsFixed(2)} ر.س* (شامل 15% ضريبة)');
+    buffer.writeln(
+        '💰 *الإجمالي النهائي: ${grandTotal.toStringAsFixed(2)} ر.س* (شامل 15% ضريبة)');
     buffer.writeln('--------------------------------');
     buffer.writeln('${settings['footer']}');
 

@@ -1,9 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../database/db_helper.dart';
 import '../theme/glass_theme.dart';
-import '../services/invoice_action_service.dart';
 
 class PosScreen extends StatefulWidget {
   const PosScreen({super.key});
@@ -20,8 +18,8 @@ class _PosScreenState extends State<PosScreen> {
   List<Map<String, dynamic>> _searchResults = [];
   final List<Map<String, dynamic>> _cart = [];
 
-  bool _isWholesale = false;
-  String _paymentMethod = 'نقداً';
+  final bool _isWholesale = false;
+  final String _paymentMethod = 'نقداً';
 
   @override
   void initState() {
@@ -84,21 +82,35 @@ class _PosScreenState extends State<PosScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(product['name'], style: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: 18)),
-                    IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(ctx)),
+                    Text(product['name'],
+                        style: GoogleFonts.cairo(
+                            fontWeight: FontWeight.bold, fontSize: 18)),
+                    IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () => Navigator.pop(ctx)),
                   ],
                 ),
-                Text('المتوفر بالمستودع: $stock $unit', style: GoogleFonts.tajawal(color: stock <= 3 ? Colors.red : Colors.blueGrey, fontSize: 13)),
+                Text('المتوفر بالمستودع: $stock $unit',
+                    style: GoogleFonts.tajawal(
+                        color: stock <= 3 ? Colors.red : Colors.blueGrey,
+                        fontSize: 13)),
                 const Divider(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('سعر الوحدة (${_isWholesale ? "جملة" : "تجزئة"}):', style: GoogleFonts.tajawal(fontSize: 14)),
-                    Text('${price.toStringAsFixed(2)} ر.س', style: GoogleFonts.tajawal(fontWeight: FontWeight.bold, fontSize: 18, color: BieLiTheme.emeraldGreen)),
+                    Text('سعر الوحدة (${_isWholesale ? "جملة" : "تجزئة"}):',
+                        style: GoogleFonts.tajawal(fontSize: 14)),
+                    Text('${price.toStringAsFixed(2)} ر.س',
+                        style: GoogleFonts.tajawal(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: BieLiTheme.emeraldGreen)),
                   ],
                 ),
                 const SizedBox(height: 16),
-                Text('حدد الكمية المطلوبة:', style: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: 14)),
+                Text('حدد الكمية المطلوبة:',
+                    style: GoogleFonts.cairo(
+                        fontWeight: FontWeight.bold, fontSize: 14)),
                 const SizedBox(height: 8),
                 Row(
                   children: [
@@ -115,7 +127,8 @@ class _PosScreenState extends State<PosScreen> {
                         controller: qtyCtrl,
                         keyboardType: TextInputType.number,
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.tajawal(fontSize: 22, fontWeight: FontWeight.bold),
+                        style: GoogleFonts.tajawal(
+                            fontSize: 22, fontWeight: FontWeight.bold),
                         onChanged: (v) {
                           final parsed = int.tryParse(v);
                           if (parsed != null && parsed > 0) qty = parsed;
@@ -136,7 +149,8 @@ class _PosScreenState extends State<PosScreen> {
                     backgroundColor: BieLiTheme.primaryCrimson,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
                   ),
                   onPressed: () {
                     final finalQty = int.tryParse(qtyCtrl.text) ?? qty;
@@ -145,7 +159,10 @@ class _PosScreenState extends State<PosScreen> {
                     _searchCtrl.clear();
                     setState(() => _searchResults = []);
                   },
-                  child: Text('إضافة إلى الفاتورة (${(price * qty).toStringAsFixed(2)} ر.س)', style: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: 15)),
+                  child: Text(
+                      'إضافة إلى الفاتورة (${(price * qty).toStringAsFixed(2)} ر.س)',
+                      style: GoogleFonts.cairo(
+                          fontWeight: FontWeight.bold, fontSize: 15)),
                 ),
               ],
             ),
@@ -162,7 +179,7 @@ class _PosScreenState extends State<PosScreen> {
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: BieLiTheme.darkNavy.withOpacity(0.08),
+          color: BieLiTheme.darkNavy.withValues(alpha: 0.08),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Icon(icon, size: 22, color: BieLiTheme.darkNavy),
@@ -170,7 +187,8 @@ class _PosScreenState extends State<PosScreen> {
     );
   }
 
-  void _addToCart(Map<String, dynamic> product, double price, int qty, String unit) {
+  void _addToCart(
+      Map<String, dynamic> product, double price, int qty, String unit) {
     setState(() {
       final index = _cart.indexWhere((it) => it['id'] == product['id']);
       if (index != -1) {
@@ -189,13 +207,15 @@ class _PosScreenState extends State<PosScreen> {
     });
   }
 
-  double get _subtotal => _cart.fold(0.0, (sum, it) => sum + (it['subtotal'] as double));
+  double get _subtotal =>
+      _cart.fold(0.0, (sum, it) => sum + (it['subtotal'] as double));
   double get _tax => _subtotal * 0.15;
   double get _grandTotal => _subtotal + _tax;
 
   void _saveAndShowReceiptDialog() async {
     if (_cart.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('السلة فارغة')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('السلة فارغة')));
       return;
     }
 
@@ -214,11 +234,7 @@ class _PosScreenState extends State<PosScreen> {
     if (!mounted) return;
 
     final phoneForWhatsAppCtrl = TextEditingController();
-    final savedCart = List<Map<String, dynamic>>.from(_cart);
     final savedTotal = _grandTotal;
-    final savedSubtotal = _subtotal;
-    final savedTax = _tax;
-    final custName = _customerCtrl.text.trim().isEmpty ? 'عميل نقدي' : _customerCtrl.text.trim();
 
     setState(() {
       _cart.clear();
@@ -230,19 +246,26 @@ class _PosScreenState extends State<PosScreen> {
       builder: (ctx) => Directionality(
         textDirection: TextDirection.rtl,
         child: AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
           title: Row(
             children: [
               const Icon(Icons.check_circle, color: Color(0xFF059669)),
               const SizedBox(width: 8),
-              Text('تم إصدار الفاتورة #$id', style: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: 16)),
+              Text('تم إصدار الفاتورة #$id',
+                  style: GoogleFonts.cairo(
+                      fontWeight: FontWeight.bold, fontSize: 16)),
             ],
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('الإجمالي: ${savedTotal.toStringAsFixed(2)} ر.س', style: GoogleFonts.tajawal(fontWeight: FontWeight.bold, fontSize: 18, color: BieLiTheme.emeraldGreen)),
+              Text('الإجمالي: ${savedTotal.toStringAsFixed(2)} ر.س',
+                  style: GoogleFonts.tajawal(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: BieLiTheme.emeraldGreen)),
               const SizedBox(height: 12),
               TextField(
                 controller: phoneForWhatsAppCtrl,
@@ -251,7 +274,7 @@ class _PosScreenState extends State<PosScreen> {
                   labelText: 'رقم واتساب العميل (اختياري مع الكود)',
                   hintText: '966500000000',
                   prefixIcon: Icon(Icons.phone_android, color: Colors.green),
-                  border: const OutlineInputBorder(),
+                  border: OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 12),
@@ -305,8 +328,10 @@ class _PosScreenState extends State<PosScreen> {
                         final item = _cart[index];
                         return ListTile(
                           title: Text(item['name'].toString()),
-                          subtitle: Text('${item['quantity']} × ${item['price']} ر.س'),
-                          trailing: Text('${item['subtotal'].toStringAsFixed(2)} ر.س'),
+                          subtitle: Text(
+                              '${item['quantity']} × ${item['price']} ر.س'),
+                          trailing: Text(
+                              '${item['subtotal'].toStringAsFixed(2)} ر.س'),
                         );
                       },
                     ),
@@ -316,9 +341,14 @@ class _PosScreenState extends State<PosScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text('الإجمالي: ${_grandTotal.toStringAsFixed(2)} ر.س', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                  Text('الإجمالي: ${_grandTotal.toStringAsFixed(2)} ر.س',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 18)),
                   const SizedBox(height: 8),
-                  ElevatedButton(onPressed: _cart.isEmpty ? null : _saveAndShowReceiptDialog, child: const Text('إصدار الفاتورة')),
+                  ElevatedButton(
+                      onPressed:
+                          _cart.isEmpty ? null : _saveAndShowReceiptDialog,
+                      child: const Text('إصدار الفاتورة')),
                 ],
               ),
             ),

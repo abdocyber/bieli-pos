@@ -70,26 +70,30 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentIndex,
         onDestinationSelected: (idx) => setState(() => _currentIndex = idx),
-        indicatorColor: BieLiTheme.primaryCrimson.withOpacity(0.18),
+        indicatorColor: BieLiTheme.primaryCrimson.withValues(alpha: 0.18),
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.point_of_sale_outlined),
-            selectedIcon: Icon(Icons.point_of_sale, color: BieLiTheme.primaryCrimson),
+            selectedIcon:
+                Icon(Icons.point_of_sale, color: BieLiTheme.primaryCrimson),
             label: 'البيع المباشر',
           ),
           NavigationDestination(
             icon: Icon(Icons.inventory_2_outlined),
-            selectedIcon: Icon(Icons.inventory_2, color: BieLiTheme.primaryCrimson),
+            selectedIcon:
+                Icon(Icons.inventory_2, color: BieLiTheme.primaryCrimson),
             label: 'المخزن',
           ),
           NavigationDestination(
             icon: Icon(Icons.storefront_outlined),
-            selectedIcon: Icon(Icons.storefront, color: BieLiTheme.primaryCrimson),
+            selectedIcon:
+                Icon(Icons.storefront, color: BieLiTheme.primaryCrimson),
             label: 'المتجر والطباعة',
           ),
           NavigationDestination(
             icon: Icon(Icons.security_outlined),
-            selectedIcon: Icon(Icons.security, color: BieLiTheme.primaryCrimson),
+            selectedIcon:
+                Icon(Icons.security, color: BieLiTheme.primaryCrimson),
             label: 'النسخ الاحتياطي',
           ),
         ],

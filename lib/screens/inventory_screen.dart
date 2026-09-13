@@ -8,8 +8,8 @@ class InventoryScreen extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: AppBar(title: Text('المخزن')),
-        body: Center(child: Text('إدارة المخزون')),
+        appBar: AppBar(title: const Text('المخزن')),
+        body: const Center(child: Text('إدارة المخزون')),
       ),
     );
   }

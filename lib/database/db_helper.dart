@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -108,8 +107,8 @@ class DatabaseHelper {
         });
 
         await txn.rawUpdate('''
-          UPDATE products 
-          SET stock = stock - ? 
+          UPDATE products
+          SET stock = stock - ?
           WHERE id = ?
         ''', [item['quantity'], item['id']]);
       }
@@ -125,7 +124,8 @@ class DatabaseHelper {
 
   Future<int> insertProduct(Map<String, dynamic> row) async {
     final db = await instance.database;
-    return await db.insert('products', row, conflictAlgorithm: ConflictAlgorithm.replace);
+    return await db.insert('products', row,
+        conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   Future<int> updateProduct(String id, Map<String, dynamic> row) async {

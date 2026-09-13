@@ -1,4 +1,3 @@
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StoreSettingsService {
@@ -30,7 +29,8 @@ class StoreSettingsService {
       'phone': prefs.getString(_kStorePhone) ?? '0500000000',
       'address': prefs.getString(_kStoreAddress) ?? 'المملكة العربية السعودية',
       'taxNumber': prefs.getString(_kStoreTaxNum) ?? '300000000000003',
-      'footer': prefs.getString(_kStoreFooter) ?? 'شكراً لزيارتكم • البضاعة المباعة ترد وتستبدل حسب الأنظمة',
+      'footer': prefs.getString(_kStoreFooter) ??
+          'شكراً لزيارتكم • البضاعة المباعة ترد وتستبدل حسب الأنظمة',
     };
   }
 }

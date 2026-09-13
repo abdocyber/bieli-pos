@@ -12,9 +12,12 @@ class BieLiTheme {
       useMaterial3: true,
       scaffoldBackgroundColor: const Color(0xFFF1F5F9),
       textTheme: TextTheme(
-        headlineSmall: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: 20),
-        titleMedium: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: 16),
-        bodyMedium: GoogleFonts.tajawal(fontWeight: FontWeight.w500, fontSize: 14),
+        headlineSmall:
+            GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: 20),
+        titleMedium:
+            GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: 16),
+        bodyMedium:
+            GoogleFonts.tajawal(fontWeight: FontWeight.w500, fontSize: 14),
         bodySmall: GoogleFonts.tajawal(fontSize: 12),
       ),
     );
@@ -49,15 +52,15 @@ class GlassCard extends StatelessWidget {
           child: Container(
             padding: padding,
             decoration: BoxDecoration(
-              color: (tintColor ?? Colors.white).withOpacity(0.82),
+              color: (tintColor ?? Colors.white).withValues(alpha: 0.82),
               borderRadius: BorderRadius.circular(borderRadius),
               border: Border.all(
-                color: Colors.white.withOpacity(0.6),
+                color: Colors.white.withValues(alpha: 0.6),
                 width: 1.2,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.04),
+                  color: Colors.black.withValues(alpha: 0.04),
                   blurRadius: 16,
                   offset: const Offset(0, 6),
                 ),

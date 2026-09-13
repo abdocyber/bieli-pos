@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'dart:convert';
 import 'package:path/path.dart';
@@ -35,9 +34,11 @@ class BackupService {
       await backupFile.writeAsString(jsonEncode(backupPayload));
 
       if (shareDirectly) {
-        await Share.shareXFiles(
-          [XFile(backupFile.path)],
-          text: 'النسخة الاحتياطية الشاملة لنظام بـِـع لي - $timestamp',
+        await SharePlus.instance.share(
+          ShareParams(
+            files: [XFile(backupFile.path)],
+            text: 'النسخة الاحتياطية الشاملة لنظام بـِـع لي - $timestamp',
+          ),
         );
         return backupFile.path;
       } else {
@@ -67,7 +68,7 @@ class BackupService {
         type: FileType.any,
       );
 
-      if (result == null || result.isEmpty || result.single.path == null) {
+      if (result.isEmpty || result.single.path == null) {
         return false;
       }
 

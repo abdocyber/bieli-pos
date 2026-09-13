@@ -8,8 +8,8 @@ class BackupScreen extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: AppBar(title: Text('النسخ الاحتياطي')),
-        body: Center(child: Text('النسخ الاحتياطي')),
+        appBar: AppBar(title: const Text('النسخ الاحتياطي')),
+        body: const Center(child: Text('النسخ الاحتياطي')),
       ),
     );
   }
