@@ -26,6 +26,16 @@ jobs:
           cache: true
       - name: Install Dependencies
         run: flutter pub get
+      - name: Run Unit Tests
+        run: flutter test
+      - name: Run POS Integration Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_2
+          script: flutter test integration_test/pos_workflow_test.dart
       - name: Build APK
         run: flutter build apk --release
       - name: Upload Android Artifact
