@@ -5,7 +5,7 @@ class InventoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Directionality(
+    return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: AppBar(title: Text('المخزن')),
@@ -14,4 +14,3 @@ class InventoryScreen extends StatelessWidget {
     );
   }
 }
-
